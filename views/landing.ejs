@@ -1,0 +1,21 @@
+<% include ./partials/header %>
+
+<div class='container-fluid'>
+    <div col-lg-12>
+        <h6><small>This app was build as part of educational process at
+            <a href='https://www.freecodecamp.com/challenges/build-a-nightlife-coordination-app' target='_blank'>
+                www.freecodecamp.com
+            </a>
+        </small></h6>
+        <h6><small>Technologies used: HTML, CSS, Bootstrap, jQuery, Node.js, npm, Express, MongoDB, Passport.js, Git/GitHub, RapidAPI</small></h6>
+        <h6><small><a href='https://rapidapi.com/package/YelpAPI' target='_blank'>YelpAPI</a> was the API used to build this app.</small></h6>
+        <div class='form'>
+            <form action='/placesnearby' method='POST'>
+                <input type='text' placeholder='Enter your location here' name='location'>
+                <button>Check out places!</button>
+            </form>
+        </div>
+    <div>
+</div>
+
+<% include ./partials/footer %>

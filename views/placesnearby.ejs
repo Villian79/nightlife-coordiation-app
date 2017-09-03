@@ -1,0 +1,33 @@
+<% include ./partials/header %>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class='col-lg-12'>
+            <h1>Check out places to go tonight in <%= location %></h1>
+        </div>
+    </div>
+    <div class="row align-left" style="display: flex; flex-wrap: wrap;">
+        <div class='col-lg-12'>
+            <ul class="list-unstyled">
+                <% payload.businesses.forEach(function(business){ %>
+                    <li class="media">
+                        <img class='thumbnail rounded d-flex mr-3' src='<%= business.image_url %>' alt='Photo of <%= business.id %>'>
+                        <div class="media-body">
+                            <h5 class="mt-0 mb-1"><%= business.name %></h5>
+                            <div class="address"> <small><em>Address:
+                                <% for(var i=0; i<business.location.display_address.length; i++){ %>
+                                    <%= business.location.display_address[i] %>
+                                <% } %><br/>
+                                Phone: <%= business.display_phone %><br/>
+                                Distance: <%= Number(business.distance).toFixed(2) %> meters away</em></small>
+                            </div>
+                        </div>
+                    </li>
+                    <hr>
+                <% }); %>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<% include ./partials/footer %>

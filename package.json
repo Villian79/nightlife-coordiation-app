@@ -1,0 +1,26 @@
+{
+  "name": "nightlife-coordiation-app",
+  "version": "1.0.0",
+  "description": "Freecodecamp API project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Villian79/nightlife-coordiation-app.git"
+  },
+  "author": "Igor Vilinchuk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Villian79/nightlife-coordiation-app/issues"
+  },
+  "homepage": "https://github.com/Villian79/nightlife-coordiation-app#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "ejs": "^2.5.7",
+    "express": "^4.15.4",
+    "mongoose": "^4.11.9",
+    "rapidapi-connect": "0.0.6"
+  }
+}
