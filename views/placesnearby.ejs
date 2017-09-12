@@ -13,14 +13,21 @@
                     <li class="media">
                         <img class='thumbnail rounded d-flex mr-3' src='<%= business.image_url %>' alt='Photo of <%= business.id %>'>
                         <div class="media-body">
-                            <h5 class="mt-0 mb-1"><%= business.name %></h5>
+                            <h5 class="mt-0 mb-1"><a href='<%= business.url %>' target='_blank'><%= business.name %></a></h5>
                             <div class="address"> <small><em>Address:
-                                <% for(var i=0; i<business.location.display_address.length; i++){ %>
-                                    <%= business.location.display_address[i] %>
+                                <% for(var i=0; i<business.display_address.length; i++){ %>
+                                    <%= business.display_address[i] %>
                                 <% } %><br/>
                                 Phone: <%= business.display_phone %><br/>
                                 Distance: <%= Number(business.distance).toFixed(2) %> meters away</em></small>
                             </div>
+
+                            <form class='form-inline'>
+                                <span class="btn btn-sm btn-primary">Places reserved: <%= business.businessReserved.length %></span>
+                                <!-- <a href='/auth/facebook' class='btn btn-sm btn-success'>Reserve your place</a> -->
+                                <a href='/<%= payload._id %>/<%= business._id %>' class='btn btn-sm btn-success'>Reserve your place</a>
+                                <a href='#' class='btn btn-sm btn-danger'>Cancel your reservation</a>
+                            </form>
                         </div>
                     </li>
                     <hr>
