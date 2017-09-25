@@ -4,7 +4,7 @@ const express           = require('express'),
       mongoose          = require('mongoose'),
       RapidAPI          = require('rapidapi-connect'),
       session           = require('express-session'),
-      morgan            = require('morgan'),
+//      morgan            = require('morgan'),
       cookieParser      = require('cookie-parser');
       passport          = require('passport'),
       FacebookStrategy  = require('passport-facebook').Strategy;
@@ -21,7 +21,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + "/public"));
-app.use(morgan('combined'));
+//app.use(morgan('combined'));
 app.use(cookieParser());
 app.use(require('express-session')({ secret: 'Nightlife Coordination App', resave: true, saveUninitialized: true }));
 
@@ -182,12 +182,13 @@ app.post('/placesnearby', (req, res)=>{
 
 //UPDATE route
 app.get('/:location/:id', middleware.isLoggedIn, function(req, res){
-    City.findById('59b7c3783703861b8c5540d0', function(err, foundBusiness){
+    City.findById(req.params.id, function(err, foundBusiness){
         if(err){
             console.log(err);
         }
         else{
-            console.log(foundBusiness);
+            console.log("foundBusiness");
+            res.send(req.params.id);
         }
     });
 });
