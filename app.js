@@ -182,7 +182,7 @@ app.post('/placesnearby', (req, res)=>{
 
 //UPDATE route
 app.get('/:location/:id', middleware.isLoggedIn, function(req, res){
-    City.findById('59b7c3783703861b8c5540d0', function(err, foundBusiness){
+    City.findById(req.params.location, function(err, foundBusiness){
         if(err){
             console.log(err);
         }
