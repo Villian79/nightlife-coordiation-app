@@ -4,7 +4,7 @@ const express           = require('express'),
       mongoose          = require('mongoose'),
       RapidAPI          = require('rapidapi-connect'),
       session           = require('express-session'),
-//      morgan            = require('morgan'),
+      morgan            = require('morgan'),
       cookieParser      = require('cookie-parser');
       passport          = require('passport'),
       FacebookStrategy  = require('passport-facebook').Strategy;
@@ -21,7 +21,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + "/public"));
-//app.use(morgan('combined'));
+app.use(morgan('combined'));
 app.use(cookieParser());
 app.use(require('express-session')({ secret: 'Nightlife Coordination App', resave: true, saveUninitialized: true }));
 
@@ -119,8 +119,18 @@ app.get('/error', (req, res)=>{
 
 
 //SHOW route
-app.get('/placesnearby', (req, res)=>{
-    res.render('placesnearby');
+app.get('/:location', (req, res)=>{
+    City.findOne({name: req.params.location}, function(err, loc){
+        if(err){
+            return err;
+        }
+        if(loc){
+            res.render('placesnearby', {payload: loc, location: req.params.location});
+        }
+        else{
+            res.send('No location ' + req.params.location + ' found...');
+        }
+    });
 })
 //========Require data from YelpAPI======================================================
 app.post('/placesnearby', (req, res)=>{
@@ -131,7 +141,7 @@ app.post('/placesnearby', (req, res)=>{
         'term': 'bars',
         'radius': 20000,
         'sortBy': 'distance',
-        'limit': 20
+        'limit': 10
     }).on('success', (payload)=>{
 //===================================Check location entry with DB ==========================
                 City.findOne({name: location}, function(err, loc){
@@ -141,7 +151,8 @@ app.post('/placesnearby', (req, res)=>{
                     //if location is already in DB - render the placesnearby page
                     if (loc) {
                         console.log('This location is already in the DB');
-                        res.render('placesnearby', {payload: loc, location: location});
+                        res.redirect('/'+location);
+                        //res.render('placesnearby', {payload: loc, location: location});
                     }
                     else{
                     //if location in NOT in DB - create one and render the placesnearby page
@@ -166,8 +177,8 @@ app.post('/placesnearby', (req, res)=>{
                             }
                             else{
                                 console.log('New LOCATION has been successfully added to the DB');
-                                console.log(loc);
-                                res.render('placesnearby', {payload: loc, location: location});
+                                res.redirect('/'+location);
+                                //res.render('placesnearby', {payload: loc, location: location});
                             }
                         });
                     }
@@ -182,16 +193,35 @@ app.post('/placesnearby', (req, res)=>{
 
 //UPDATE route
 app.get('/:location/:id', middleware.isLoggedIn, function(req, res){
-    City.findById(req.params.id, function(err, foundBusiness){
+    City.findOne({name: req.params.location}, function(err, foundBusiness){
         if(err){
             console.log(err);
         }
         else{
-            console.log("foundBusiness");
-            res.send(req.params.id);
+            var businesses = [];
+            foundBusiness.businesses.forEach(function(business){
+                if(business.name === req.params.id){
+                    business.businessReserved.push(req.user.id);
+                    businesses.push(business);
+                }
+                else{
+                    businesses.push(business);
+                }
+            });
+            City.findOneAndUpdate({name: req.params.location}, {$set: {businesses : businesses}}, function(err, model){
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    res.redirect('/'+req.params.location);
+                    //res.render('placesnearby', {payload: model, location: model.name});
+                }
+            });
+
         }
     });
 });
+
 
 
 //LOGOUT route

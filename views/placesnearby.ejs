@@ -25,7 +25,7 @@
                             <form class='form-inline'>
                                 <span class="btn btn-sm btn-primary">Places reserved: <%= business.businessReserved.length %></span>
                                 <!-- <a href='/auth/facebook' class='btn btn-sm btn-success'>Reserve your place</a> -->
-                                <a href='/<%= payload._id %>/<%= business._id %>' class='btn btn-sm btn-success'>Reserve your place</a>
+                                <a href='/<%= payload.name %>/<%= business.name %>' class='btn btn-sm btn-success'>Reserve your place</a>
                                 <a href='#' class='btn btn-sm btn-danger'>Cancel your reservation</a>
                             </form>
                         </div>
