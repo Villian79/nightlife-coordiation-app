@@ -141,6 +141,7 @@ app.post('/placesnearby', (req, res)=>{
                     //if location is already in DB - render the placesnearby page
                     if (loc) {
                         console.log('This location is already in the DB');
+						console.log('Current User ID: ' + req.user.id);
                         res.render('placesnearby', {payload: loc, location: location});
                     }
                     else{
